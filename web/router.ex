@@ -13,14 +13,9 @@ defmodule ApiExample.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ApiExample do
-    pipe_through :browser # Use the default browser stack
+  scope "/api/v1", ApiExample do
+    pipe_through :api
 
-    get "/", PageController, :index
+    get "/users", UserController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ApiExample do
-  #   pipe_through :api
-  # end
 end
