@@ -22,4 +22,8 @@ defmodule ApiExample.Repo do
 
     ]
   end
+
+  def get(module, id) do
+    Enum.find all(module), fn elem -> elem.id == id end
+  end
 end

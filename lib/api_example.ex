@@ -9,7 +9,7 @@ defmodule ApiExample do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(ApiExample.Repo, []),
+      # supervisor(ApiExample.Repo, []),
       # Start the endpoint when the application starts
       supervisor(ApiExample.Endpoint, []),
       # Start your own worker by calling: ApiExample.Worker.start_link(arg1, arg2, arg3)
