@@ -18,5 +18,6 @@ defmodule ApiExample.Router do
 
     get "/users", UserController, :index
     get "/users/:id", UserController, :show
+    post "/users", UserController, :create
   end
 end
