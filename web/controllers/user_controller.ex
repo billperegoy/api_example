@@ -23,6 +23,21 @@ defmodule ApiExample.UserController do
     end
   end
 
+  def update(conn, %{"id" => id} = params) do
+    user = Repo.get(ApiExample.User, id)
+    if user do
+      changeset = ApiExample.User.changeset(user, params)
+      case Repo.update(changeset) do
+        {:ok, user} ->
+          json conn |> put_status(:ok), user
+        {:error, result} ->
+          json conn |> put_status(:bad_request), %{error: "bad update"}
+      end
+    else
+      json conn |> put_status(:not_found), %{error: "invalid user"}
+    end
+  end
+
   defp conn_with_status(conn, nil) do
     conn
       |> put_status(:not_found)
