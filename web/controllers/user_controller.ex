@@ -19,22 +19,26 @@ defmodule ApiExample.UserController do
       {:ok, user} ->
         json conn |> put_status(:created), user
       {:error, _changeset} ->
-        json conn |> put_status(:bad_request), %{error: "Bad post"}
+        json conn |> put_status(:bad_request), %{errors: ["unable to create user"]}
     end
   end
 
   def update(conn, %{"id" => id} = params) do
     user = Repo.get(ApiExample.User, id)
     if user do
-      changeset = ApiExample.User.changeset(user, params)
-      case Repo.update(changeset) do
-        {:ok, user} ->
-          json conn |> put_status(:ok), user
-        {:error, result} ->
-          json conn |> put_status(:bad_request), %{error: "bad update"}
-      end
+      perform_update(conn, user, params)
     else
-      json conn |> put_status(:not_found), %{error: "invalid user"}
+      json conn |> put_status(:not_found), %{errors: ["invalid user"]}
+    end
+  end
+
+  defp perform_update(conn, user, params) do
+    changeset = ApiExample.User.changeset(user, params)
+    case Repo.update(changeset) do
+      {:ok, user} ->
+        json conn |> put_status(:ok), user
+      {:error, _result} ->
+        json conn |> put_status(:bad_request), %{errors: ["unable to update user"]}
     end
   end
 
