@@ -32,6 +32,16 @@ defmodule ApiExample.UserController do
     end
   end
 
+  def delete(conn, %{"id" => id} = params) do
+    user = Repo.get(ApiExample.User, id)
+    if user do
+      Repo.delete(user)
+      json conn |> put_status(:accepted), user
+    else
+      json conn |> put_status(:not_found), %{errors: ["invalid user"]}
+    end
+  end
+
   defp perform_update(conn, user, params) do
     changeset = ApiExample.User.changeset(user, params)
     case Repo.update(changeset) do
