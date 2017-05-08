@@ -137,8 +137,21 @@ findUser id users =
         |> List.head
 
 
-fieldValue : Maybe User -> FormAction -> (User -> a) -> String
-fieldValue user formAction extractor =
+fieldStringValue : Maybe User -> FormAction -> (User -> String) -> String
+fieldStringValue user formAction extractor =
+    case user of
+        Just user ->
+            if formAction == Edit then
+                extractor user
+            else
+                ""
+
+        Nothing ->
+            ""
+
+
+fieldIntValue : Maybe User -> FormAction -> (User -> Int) -> String
+fieldIntValue user formAction extractor =
     case user of
         Just user ->
             if formAction == Edit then
@@ -162,16 +175,16 @@ userForm model =
                     Nothing
 
         name =
-            fieldValue user model.formAction .name
+            fieldStringValue user model.formAction .name
 
         email =
-            fieldValue user model.formAction .email
+            fieldStringValue user model.formAction .email
 
         age =
-            fieldValue user model.formAction .age
+            fieldIntValue user model.formAction .age
 
         stooge =
-            fieldValue user model.formAction .stooge
+            fieldStringValue user model.formAction .stooge
 
         buttonText =
             if model.formAction == Edit then
