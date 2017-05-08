@@ -137,6 +137,19 @@ findUser id users =
         |> List.head
 
 
+fieldValue : Maybe User -> FormAction -> (User -> a) -> String
+fieldValue user formAction extractor =
+    case user of
+        Just user ->
+            if formAction == Edit then
+                extractor user |> toString
+            else
+                ""
+
+        Nothing ->
+            ""
+
+
 userForm : Model -> Html Msg
 userForm model =
     let
@@ -149,48 +162,16 @@ userForm model =
                     Nothing
 
         name =
-            case user of
-                Just user ->
-                    if model.formAction == Edit then
-                        user.name
-                    else
-                        ""
-
-                Nothing ->
-                    ""
+            fieldValue user model.formAction .name
 
         email =
-            case user of
-                Just user ->
-                    if model.formAction == Edit then
-                        user.email
-                    else
-                        ""
-
-                Nothing ->
-                    ""
+            fieldValue user model.formAction .email
 
         age =
-            case user of
-                Just user ->
-                    if model.formAction == Edit then
-                        toString user.age
-                    else
-                        ""
-
-                Nothing ->
-                    ""
+            fieldValue user model.formAction .age
 
         stooge =
-            case user of
-                Just user ->
-                    if model.formAction == Edit then
-                        user.stooge
-                    else
-                        ""
-
-                Nothing ->
-                    ""
+            fieldValue user model.formAction .stooge
 
         buttonText =
             if model.formAction == Edit then
