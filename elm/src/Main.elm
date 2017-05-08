@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Utils
 
 
@@ -21,8 +22,17 @@ main =
 
 type alias Model =
     { users : List User
+    , formAction : FormAction
+    , selectedUser : Maybe Int
     , nextUserId : Int
     }
+
+
+type FormAction
+    = Create
+    | Edit
+    | Delete
+    | None
 
 
 type alias User =
@@ -44,6 +54,8 @@ initUsers =
 init : ( Model, Cmd Msg )
 init =
     { users = initUsers
+    , formAction = None
+    , selectedUser = Nothing
     , nextUserId = 3
     }
         ! []
@@ -55,6 +67,9 @@ init =
 
 type Msg
     = NoOp
+    | EditUser Int
+    | DeleteUser Int
+    | NewUser
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -62,6 +77,27 @@ update msg model =
     case msg of
         NoOp ->
             model ! []
+
+        EditUser id ->
+            { model
+                | formAction = Edit
+                , selectedUser = Just id
+            }
+                ! []
+
+        DeleteUser id ->
+            { model
+                | formAction = Delete
+                , selectedUser = Just id
+            }
+                ! []
+
+        NewUser ->
+            { model
+                | formAction = Create
+                , selectedUser = Nothing
+            }
+                ! []
 
 
 
@@ -72,35 +108,115 @@ view : Model -> Html Msg
 view model =
     div [ class "container" ]
         [ div [ class "row" ]
+            [ button [ onClick NewUser, class "button btn-primary" ] [ text "New User" ]
+            ]
+        , div [ class "row" ]
             [ userTable model.users
-            , newUserForm
+            , formColumn model
             ]
         ]
 
 
-newUserForm : Html Msg
-newUserForm =
-    div [ class "col-md-3" ]
-        [ Html.form []
+formColumn : Model -> Html Msg
+formColumn model =
+    let
+        innerForm =
+            if model.formAction == Create || model.formAction == Edit then
+                userForm model
+            else
+                div [] []
+    in
+        div [ class "col-md-3" ]
+            [ innerForm ]
+
+
+findUser : Int -> List User -> Maybe User
+findUser id users =
+    users
+        |> List.filter (\user -> user.id == id)
+        |> List.head
+
+
+userForm : Model -> Html Msg
+userForm model =
+    let
+        user =
+            case model.selectedUser of
+                Just id ->
+                    findUser id model.users
+
+                Nothing ->
+                    Nothing
+
+        name =
+            case user of
+                Just user ->
+                    if model.formAction == Edit then
+                        user.name
+                    else
+                        ""
+
+                Nothing ->
+                    ""
+
+        email =
+            case user of
+                Just user ->
+                    if model.formAction == Edit then
+                        user.email
+                    else
+                        ""
+
+                Nothing ->
+                    ""
+
+        age =
+            case user of
+                Just user ->
+                    if model.formAction == Edit then
+                        toString user.age
+                    else
+                        ""
+
+                Nothing ->
+                    ""
+
+        stooge =
+            case user of
+                Just user ->
+                    if model.formAction == Edit then
+                        user.stooge
+                    else
+                        ""
+
+                Nothing ->
+                    ""
+
+        buttonText =
+            if model.formAction == Edit then
+                "Update"
+            else
+                "Create"
+    in
+        Html.form []
             [ div [ class "form-group" ]
                 [ label [] [ text "Name" ]
-                , input [ class "form-control" ] []
+                , input [ value name, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Email" ]
-                , input [ class "form-control" ] []
+                , input [ value email, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Age" ]
-                , input [ class "form-control" ] []
+                , input [ value age, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Stooge" ]
-                , input [ class "form-control" ] []
+                , input [ value stooge, class "form-control" ] []
                 ]
-            , button [ class "btn btn-primary" ] [ text "Primary" ]
+            , button [ class "btn btn-primary" ] [ text buttonText ]
             ]
-        ]
 
 
 userTable : List User -> Html Msg
@@ -118,7 +234,8 @@ userTableHeader : Html Msg
 userTableHeader =
     thead []
         [ tr []
-            [ th [] [ text "Name" ]
+            [ th [ colspan 2 ] []
+            , th [] [ text "Name" ]
             , th [] [ text "Email" ]
             , th [] [ text "Age" ]
             , th [] [ text "Stooge" ]
@@ -135,7 +252,9 @@ userRows users =
 userRow : User -> Html Msg
 userRow user =
     tr []
-        [ td [] [ text user.name ]
+        [ td [] [ button [ onClick (EditUser user.id), class "button btn-primary" ] [ text "Edit" ] ]
+        , td [] [ button [ onClick (DeleteUser user.id), class "button btn-primary" ] [ text "Delete" ] ]
+        , td [] [ text user.name ]
         , td [] [ text user.email ]
         , td [] [ text (toString user.age) ]
         , td [] [ text user.stooge ]
