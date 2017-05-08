@@ -4,6 +4,7 @@ defmodule ApiExample.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    field :age, :integer
     field :password, :string
     field :stooge, :string
 
@@ -12,7 +13,7 @@ defmodule ApiExample.User do
 
   def changeset(model, params \\ :empty) do
     model
-      |> cast(params, [:name, :email, :password, :stooge])
+      |> cast(params, [:name, :email, :age, :password, :stooge])
       |> unique_constraint(:email)
   end
 end

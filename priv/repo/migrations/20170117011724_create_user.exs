@@ -6,6 +6,7 @@ defmodule ApiExample.Repo.Migrations.CreateUser do
       add :name, :string
       add :password, :string
       add :email, :string
+      add :age, :integer
       add :stooge, :string
 
       timestamps
