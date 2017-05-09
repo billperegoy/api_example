@@ -8,7 +8,6 @@ type alias Model =
     { users : List User
     , formAction : FormAction
     , selectedUser : Maybe Int
-    , nextUserId : Int
     , errors : Maybe Http.Error
     , nameInput : String
     , emailInput : String
@@ -26,10 +25,9 @@ type FormAction
 
 init : Model
 init =
-    { users = initUsers
+    { users = []
     , formAction = None
     , selectedUser = Nothing
-    , nextUserId = 3
     , errors = Nothing
     , nameInput = ""
     , emailInput = ""

@@ -8,10 +8,3 @@ type alias User =
     , age : Int
     , stooge : String
     }
-
-
-initUsers : List User
-initUsers =
-    [ User 1 "Joe" "joe@hello.com" 23 "moe"
-    , User 2 "Jack" "jack@hello.com" 12 "larry"
-    ]

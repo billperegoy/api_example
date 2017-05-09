@@ -1,7 +1,6 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import User exposing (..)
 import User.Http
 
 
