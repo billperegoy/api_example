@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Model exposing (..)
 import User.Http
+import View
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -11,11 +12,51 @@ update msg model =
             model ! []
 
         EditUser id ->
-            { model
-                | formAction = Edit
-                , selectedUser = Just id
-            }
-                ! []
+            let
+                user =
+                    View.findUser id model.users
+
+                name =
+                    case user of
+                        Nothing ->
+                            "huh?"
+
+                        Just u ->
+                            u.name
+
+                email =
+                    case user of
+                        Nothing ->
+                            "huh?"
+
+                        Just u ->
+                            u.email
+
+                age =
+                    case user of
+                        Nothing ->
+                            "huh?"
+
+                        Just u ->
+                            u.age |> toString
+
+                stooge =
+                    case user of
+                        Nothing ->
+                            "huh?"
+
+                        Just u ->
+                            u.stooge
+            in
+                { model
+                    | nameInput = name
+                    , emailInput = email
+                    , ageInput = age
+                    , stoogeInput = stooge
+                    , formAction = Edit
+                    , selectedUser = Just id
+                }
+                    ! []
 
         DeleteUser id ->
             { model
@@ -27,6 +68,10 @@ update msg model =
         NewUser ->
             { model
                 | formAction = Create
+                , nameInput = ""
+                , emailInput = ""
+                , ageInput = ""
+                , stoogeInput = ""
                 , selectedUser = Nothing
             }
                 ! []

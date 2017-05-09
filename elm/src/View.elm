@@ -1,4 +1,4 @@
-module View exposing (view)
+module View exposing (view, findUser)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -99,19 +99,19 @@ userForm model =
         Html.form []
             [ div [ class "form-group" ]
                 [ label [] [ text "Name" ]
-                , input [ onInput SetNameInput, class "form-control" ] []
+                , input [ onInput SetNameInput, value model.nameInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Email" ]
-                , input [ onInput SetEmailInput, class "form-control" ] []
+                , input [ onInput SetEmailInput, value model.emailInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Age" ]
-                , input [ onInput SetAgeInput, class "form-control" ] []
+                , input [ onInput SetAgeInput, value model.ageInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Stooge" ]
-                , input [ onInput SetStoogeInput, class "form-control" ] []
+                , input [ onInput SetStoogeInput, value model.stoogeInput, class "form-control" ] []
                 ]
             , button [ Http.Utils.onClickNoDefault (UserPost model), class "btn btn-primary" ] [ text buttonText ]
             ]
