@@ -5,7 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Model exposing (..)
 import User exposing (..)
-import User.Http
+import Http.Utils
 
 
 view : Model -> Html Msg
@@ -99,21 +99,21 @@ userForm model =
         Html.form []
             [ div [ class "form-group" ]
                 [ label [] [ text "Name" ]
-                , input [ value name, class "form-control" ] []
+                , input [ onInput SetNameInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Email" ]
-                , input [ value email, class "form-control" ] []
+                , input [ onInput SetEmailInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Age" ]
-                , input [ value age, class "form-control" ] []
+                , input [ onInput SetAgeInput, class "form-control" ] []
                 ]
             , div [ class "form-group" ]
                 [ label [] [ text "Stooge" ]
-                , input [ value stooge, class "form-control" ] []
+                , input [ onInput SetStoogeInput, class "form-control" ] []
                 ]
-            , button [ onClick (UserPost model), href "#", class "btn btn-primary" ] [ text buttonText ]
+            , button [ Http.Utils.onClickNoDefault (UserPost model), class "btn btn-primary" ] [ text buttonText ]
             ]
 
 

@@ -1,6 +1,8 @@
 module User.Http exposing (..)
 
 import Http
+import Html.Events exposing (..)
+import Html
 import Json.Decode
 import Json.Encode
 import Json.Decode.Pipeline

@@ -46,7 +46,7 @@ update msg model =
                 ! []
 
         ProcessUserPost (Ok user) ->
-            model ! []
+            { model | formAction = None } ! [ User.Http.get ]
 
         ProcessUserPost (Err error) ->
             { model
