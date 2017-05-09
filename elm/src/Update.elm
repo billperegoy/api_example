@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Model exposing (..)
 import User exposing (..)
+import User.Http
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -43,3 +44,27 @@ update msg model =
                 | errors = Just error
             }
                 ! []
+
+        ProcessUserPost (Ok user) ->
+            model ! []
+
+        ProcessUserPost (Err error) ->
+            { model
+                | errors = Just error
+            }
+                ! []
+
+        SetNameInput value ->
+            { model | nameInput = value } ! []
+
+        SetEmailInput value ->
+            { model | emailInput = value } ! []
+
+        SetAgeInput value ->
+            { model | ageInput = value } ! []
+
+        SetStoogeInput value ->
+            { model | stoogeInput = value } ! []
+
+        UserPost model ->
+            model ! [ User.Http.post model ]

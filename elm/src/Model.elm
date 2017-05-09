@@ -10,6 +10,10 @@ type alias Model =
     , selectedUser : Maybe Int
     , nextUserId : Int
     , errors : Maybe Http.Error
+    , nameInput : String
+    , emailInput : String
+    , ageInput : String
+    , stoogeInput : String
     }
 
 
@@ -27,6 +31,10 @@ init =
     , selectedUser = Nothing
     , nextUserId = 3
     , errors = Nothing
+    , nameInput = ""
+    , emailInput = ""
+    , ageInput = ""
+    , stoogeInput = ""
     }
 
 
@@ -40,3 +48,9 @@ type Msg
     | DeleteUser Int
     | NewUser
     | ProcessUserGet (Result Http.Error (List User))
+    | ProcessUserPost (Result Http.Error User)
+    | SetNameInput String
+    | SetEmailInput String
+    | SetAgeInput String
+    | SetStoogeInput String
+    | UserPost Model

@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Model exposing (..)
 import User exposing (..)
+import User.Http
 
 
 view : Model -> Html Msg
@@ -112,7 +113,7 @@ userForm model =
                 [ label [] [ text "Stooge" ]
                 , input [ value stooge, class "form-control" ] []
                 ]
-            , button [ class "btn btn-primary" ] [ text buttonText ]
+            , button [ onClick (UserPost model), href "#", class "btn btn-primary" ] [ text buttonText ]
             ]
 
 
