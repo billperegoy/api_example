@@ -13,6 +13,12 @@ defmodule ApiExample.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", ApiExample do
+    pipe_through :browser
+
+    get "/", PageController, :index
+  end
+
   scope "/api/v1", ApiExample do
     pipe_through :api
 
