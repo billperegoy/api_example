@@ -1,4 +1,4 @@
-module View exposing (view, findUser)
+module View exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -34,13 +34,6 @@ formColumn model =
             [ innerForm ]
 
 
-findUser : Int -> List User -> Maybe User
-findUser id users =
-    users
-        |> List.filter (\user -> user.id == id)
-        |> List.head
-
-
 fieldStringValue : Maybe User -> FormAction -> (User -> String) -> String
 fieldStringValue user formAction extractor =
     case user of
@@ -73,7 +66,7 @@ userForm model =
         user =
             case model.selectedUser of
                 Just id ->
-                    findUser id model.users
+                    User.findUser id model.users
 
                 Nothing ->
                     Nothing

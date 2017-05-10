@@ -1,8 +1,8 @@
 module Update exposing (..)
 
 import Model exposing (..)
+import User
 import User.Http
-import View
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -14,7 +14,7 @@ update msg model =
         EditUser id ->
             let
                 user =
-                    View.findUser id model.users
+                    User.findUser id model.users
 
                 name =
                     case user of
@@ -89,10 +89,10 @@ update msg model =
             }
                 ! []
 
-        ProcessUserPost (Ok user) ->
+        ProcessUserResponse (Ok user) ->
             { model | formAction = None } ! [ User.Http.get ]
 
-        ProcessUserPost (Err error) ->
+        ProcessUserResponse (Err error) ->
             { model
                 | errors = Just error
             }

@@ -8,3 +8,10 @@ type alias User =
     , age : Int
     , stooge : String
     }
+
+
+findUser : Int -> List User -> Maybe User
+findUser id users =
+    users
+        |> List.filter (\user -> user.id == id)
+        |> List.head

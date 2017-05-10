@@ -36,17 +36,13 @@ init =
     }
 
 
-
--- Update
-
-
 type Msg
     = NoOp
     | EditUser Int
     | DeleteUser Int
     | NewUser
     | ProcessUserGet (Result Http.Error (List User))
-    | ProcessUserPost (Result Http.Error User)
+    | ProcessUserResponse (Result Http.Error User)
     | SetNameInput String
     | SetEmailInput String
     | SetAgeInput String
