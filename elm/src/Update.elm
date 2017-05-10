@@ -63,7 +63,7 @@ update msg model =
                 | formAction = Delete
                 , selectedUser = Just id
             }
-                ! []
+                ! [ User.Http.delete { model | selectedUser = Just id } ]
 
         NewUser ->
             { model

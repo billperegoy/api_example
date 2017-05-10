@@ -1,7 +1,6 @@
 module User.Http exposing (..)
 
 import Http
-import Html.Events exposing (..)
 import Json.Decode
 import Json.Encode
 import Json.Decode.Pipeline
@@ -78,6 +77,35 @@ put model =
         putRequest =
             Http.request
                 { method = "PUT"
+                , headers = []
+                , url = putUrl
+                , body = body
+                , expect = Http.expectJson decoder
+                , timeout = Nothing
+                , withCredentials = False
+                }
+    in
+        Http.send ProcessUserPost putRequest
+
+
+delete : Model -> Cmd Msg
+delete model =
+    let
+        putUrl =
+            case model.selectedUser of
+                Nothing ->
+                    url ++ "/bad"
+
+                Just id ->
+                    url ++ "/" ++ (toString id)
+
+        body =
+            Http.stringBody "application/json"
+                (Json.Encode.encode 0 (payload model))
+
+        putRequest =
+            Http.request
+                { method = "DELETE"
                 , headers = []
                 , url = putUrl
                 , body = body
