@@ -95,6 +95,12 @@ userForm model =
                 "Update"
             else
                 "Create"
+
+        buttonAction =
+            if model.formAction == Edit then
+                UserPut model
+            else
+                UserPost model
     in
         Html.form []
             [ div [ class "form-group" ]
@@ -113,7 +119,7 @@ userForm model =
                 [ label [] [ text "Stooge" ]
                 , input [ onInput SetStoogeInput, value model.stoogeInput, class "form-control" ] []
                 ]
-            , button [ Http.Utils.onClickNoDefault (UserPost model), class "btn btn-primary" ] [ text buttonText ]
+            , button [ Http.Utils.onClickNoDefault buttonAction, class "btn btn-primary" ] [ text buttonText ]
             ]
 
 

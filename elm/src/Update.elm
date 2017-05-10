@@ -112,3 +112,6 @@ update msg model =
 
         UserPost model ->
             model ! [ User.Http.post model ]
+
+        UserPut model ->
+            model ! [ User.Http.put model ]

@@ -2,7 +2,8 @@ defmodule ApiExample.UserController do
   use ApiExample.Web, :controller
 
   def index(conn, _params) do
-    users = Repo.all(ApiExample.User)
+    query = from u in ApiExample.User, order_by: u.id
+    users = Repo.all(query)
 
     json conn_with_status(conn, users), users
   end

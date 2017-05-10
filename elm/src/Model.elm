@@ -52,3 +52,4 @@ type Msg
     | SetAgeInput String
     | SetStoogeInput String
     | UserPost Model
+    | UserPut Model

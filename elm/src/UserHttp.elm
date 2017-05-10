@@ -2,7 +2,6 @@ module User.Http exposing (..)
 
 import Http
 import Html.Events exposing (..)
-import Html
 import Json.Decode
 import Json.Encode
 import Json.Decode.Pipeline
@@ -35,23 +34,56 @@ get =
     Http.send ProcessUserGet (Http.get url listDecoder)
 
 
-post : Model -> Cmd Msg
-post model =
+payload : Model -> Json.Encode.Value
+payload model =
     let
         age =
             model.ageInput
                 |> String.toInt
                 |> Result.withDefault 0
+    in
+        Json.Encode.object
+            [ ( "name", Json.Encode.string model.nameInput )
+            , ( "email", Json.Encode.string model.emailInput )
+            , ( "age", Json.Encode.int age )
+            , ( "stooge", Json.Encode.string model.stoogeInput )
+            ]
 
-        payload =
-            Json.Encode.object
-                [ ( "name", Json.Encode.string model.nameInput )
-                , ( "email", Json.Encode.string model.emailInput )
-                , ( "age", Json.Encode.int age )
-                , ( "stooge", Json.Encode.string model.stoogeInput )
-                ]
 
+post : Model -> Cmd Msg
+post model =
+    let
         body =
-            Http.stringBody "application/json" (Json.Encode.encode 0 payload)
+            Http.stringBody "application/json"
+                (Json.Encode.encode 0 (payload model))
     in
         Http.send ProcessUserPost (Http.post url body decoder)
+
+
+put : Model -> Cmd Msg
+put model =
+    let
+        putUrl =
+            case model.selectedUser of
+                Nothing ->
+                    url ++ "/bad"
+
+                Just id ->
+                    url ++ "/" ++ (toString id)
+
+        body =
+            Http.stringBody "application/json"
+                (Json.Encode.encode 0 (payload model))
+
+        putRequest =
+            Http.request
+                { method = "PUT"
+                , headers = []
+                , url = putUrl
+                , body = body
+                , expect = Http.expectJson decoder
+                , timeout = Nothing
+                , withCredentials = False
+                }
+    in
+        Http.send ProcessUserPost putRequest
