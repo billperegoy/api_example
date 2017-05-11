@@ -1,8 +1,18 @@
-module Update exposing (..)
+module Update exposing (update)
 
 import Model exposing (..)
 import User
 import User.Http
+
+
+userFormData : Model -> User.User
+userFormData model =
+    { id = -1
+    , name = model.nameInput
+    , email = model.emailInput
+    , age = model.ageInput |> String.toInt |> Result.withDefault 0
+    , stooge = model.stoogeInput
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -32,7 +42,7 @@ update msg model =
                 | formAction = Delete
                 , selectedUser = Just id
             }
-                ! [ User.Http.delete { model | selectedUser = Just id } ]
+                ! [ User.Http.delete id ]
 
         NewUser ->
             { model
@@ -80,7 +90,11 @@ update msg model =
             { model | stoogeInput = value } ! []
 
         UserPost model ->
-            model ! [ User.Http.post model ]
+            model ! [ User.Http.post (userFormData model) ]
 
         UserPut model ->
-            model ! [ User.Http.put model ]
+            let
+                id =
+                    model.selectedUser |> Maybe.withDefault 0
+            in
+                model ! [ User.Http.put (userFormData model) id ]

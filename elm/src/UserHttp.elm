@@ -23,35 +23,24 @@ decoder =
         |> Json.Decode.Pipeline.required "stooge" Json.Decode.string
 
 
+payload : User -> Json.Encode.Value
+payload user =
+    Json.Encode.object
+        [ ( "name", Json.Encode.string user.name )
+        , ( "email", Json.Encode.string user.email )
+        , ( "age", Json.Encode.int user.age )
+        , ( "stooge", Json.Encode.string user.stooge )
+        ]
+
+
 baseUrl : String
 baseUrl =
     "http://localhost:4000/api/v1/users"
 
 
-userUrl : Maybe Int -> String
-userUrl maybeId =
-    case maybeId of
-        Nothing ->
-            Debug.crash "Received Nothing for user id"
-
-        Just id ->
-            baseUrl ++ "/" ++ (toString id)
-
-
-payload : Model -> Json.Encode.Value
-payload model =
-    let
-        age =
-            model.ageInput
-                |> String.toInt
-                |> Result.withDefault 0
-    in
-        Json.Encode.object
-            [ ( "name", Json.Encode.string model.nameInput )
-            , ( "email", Json.Encode.string model.emailInput )
-            , ( "age", Json.Encode.int age )
-            , ( "stooge", Json.Encode.string model.stoogeInput )
-            ]
+userUrl : Int -> String
+userUrl id =
+    baseUrl ++ "/" ++ (toString id)
 
 
 get : Cmd Msg
@@ -59,28 +48,28 @@ get =
     Http.send ProcessUserGet (Http.get baseUrl listDecoder)
 
 
-post : Model -> Cmd Msg
-post model =
+post : User -> Cmd Msg
+post user =
     let
         body =
             Http.stringBody "application/json"
-                (Json.Encode.encode 0 (payload model))
+                (Json.Encode.encode 0 (payload user))
     in
         Http.send ProcessUserResponse (Http.post baseUrl body decoder)
 
 
-put : Model -> Cmd Msg
-put model =
+put : User -> Int -> Cmd Msg
+put user id =
     let
         body =
             Http.stringBody "application/json"
-                (Json.Encode.encode 0 (payload model))
+                (Json.Encode.encode 0 (payload user))
 
         request =
             Http.request
                 { method = "PUT"
                 , headers = []
-                , url = (userUrl model.selectedUser)
+                , url = (userUrl id)
                 , body = body
                 , expect = Http.expectJson decoder
                 , timeout = Nothing
@@ -90,14 +79,14 @@ put model =
         Http.send ProcessUserResponse request
 
 
-delete : Model -> Cmd Msg
-delete model =
+delete : Int -> Cmd Msg
+delete id =
     let
         request =
             Http.request
                 { method = "DELETE"
                 , headers = []
-                , url = (userUrl model.selectedUser)
+                , url = (userUrl id)
                 , body = Http.emptyBody
                 , expect = Http.expectJson decoder
                 , timeout = Nothing
