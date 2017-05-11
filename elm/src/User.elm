@@ -6,7 +6,6 @@ type alias User =
     , name : String
     , email : String
     , age : Int
-    , stooge : String
     }
 
 
@@ -16,7 +15,6 @@ nullUser =
     , name = ""
     , email = ""
     , age = 0
-    , stooge = ""
     }
 
 

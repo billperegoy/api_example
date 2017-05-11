@@ -12,7 +12,6 @@ type alias Model =
     , nameInput : String
     , emailInput : String
     , ageInput : String
-    , stoogeInput : String
     }
 
 
@@ -32,7 +31,6 @@ init =
     , nameInput = ""
     , emailInput = ""
     , ageInput = ""
-    , stoogeInput = ""
     }
 
 
@@ -46,6 +44,5 @@ type Msg
     | SetNameInput String
     | SetEmailInput String
     | SetAgeInput String
-    | SetStoogeInput String
     | UserPost Model
     | UserPut Model

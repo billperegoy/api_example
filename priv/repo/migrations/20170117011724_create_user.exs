@@ -4,10 +4,8 @@ defmodule ApiExample.Repo.Migrations.CreateUser do
   def change do
     create table(:users) do
       add :name, :string
-      add :password, :string
       add :email, :string
       add :age, :integer
-      add :stooge, :string
 
       timestamps
     end

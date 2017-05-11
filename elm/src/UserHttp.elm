@@ -20,7 +20,6 @@ decoder =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "email" Json.Decode.string
         |> Json.Decode.Pipeline.required "age" Json.Decode.int
-        |> Json.Decode.Pipeline.required "stooge" Json.Decode.string
 
 
 payload : User -> Json.Encode.Value
@@ -29,7 +28,6 @@ payload user =
         [ ( "name", Json.Encode.string user.name )
         , ( "email", Json.Encode.string user.email )
         , ( "age", Json.Encode.int user.age )
-        , ( "stooge", Json.Encode.string user.stooge )
         ]
 
 

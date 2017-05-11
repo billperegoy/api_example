@@ -11,7 +11,6 @@ userFormData model =
     , name = model.nameInput
     , email = model.emailInput
     , age = model.ageInput |> String.toInt |> Result.withDefault 0
-    , stooge = model.stoogeInput
     }
 
 
@@ -31,7 +30,6 @@ update msg model =
                     | nameInput = user.name
                     , emailInput = user.email
                     , ageInput = toString user.age
-                    , stoogeInput = user.stooge
                     , formAction = Edit
                     , selectedUser = Just id
                 }
@@ -50,7 +48,6 @@ update msg model =
                 , nameInput = ""
                 , emailInput = ""
                 , ageInput = ""
-                , stoogeInput = ""
                 , selectedUser = Nothing
             }
                 ! []
@@ -85,9 +82,6 @@ update msg model =
 
         SetAgeInput value ->
             { model | ageInput = value } ! []
-
-        SetStoogeInput value ->
-            { model | stoogeInput = value } ! []
 
         UserPost model ->
             model ! [ User.Http.post (userFormData model) ]

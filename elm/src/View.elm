@@ -80,9 +80,6 @@ userForm model =
         age =
             fieldIntValue user model.formAction .age
 
-        stooge =
-            fieldStringValue user model.formAction .stooge
-
         buttonText =
             if model.formAction == Edit then
                 "Update"
@@ -108,10 +105,6 @@ userForm model =
                 [ label [] [ text "Age" ]
                 , input [ onInput SetAgeInput, value model.ageInput, class "form-control" ] []
                 ]
-            , div [ class "form-group" ]
-                [ label [] [ text "Stooge" ]
-                , input [ onInput SetStoogeInput, value model.stoogeInput, class "form-control" ] []
-                ]
             , button [ Http.Utils.onClickNoDefault buttonAction, class "btn btn-primary" ] [ text buttonText ]
             ]
 
@@ -135,7 +128,6 @@ userTableHeader =
             , th [] [ text "Name" ]
             , th [] [ text "Email" ]
             , th [] [ text "Age" ]
-            , th [] [ text "Stooge" ]
             ]
         ]
 
@@ -161,5 +153,4 @@ userRow user =
         , td [] [ text user.name ]
         , td [] [ text user.email ]
         , td [] [ text (toString user.age) ]
-        , td [] [ text user.stooge ]
         ]
