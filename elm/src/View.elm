@@ -93,9 +93,20 @@ userForm model =
                 UserPut model
             else
                 UserPost model
+
+        errorAlert =
+            case model.errors of
+                Just _ ->
+                    div
+                        [ class "alert alert-danger" ]
+                        [ text "Invalid data. Try again." ]
+
+                Nothing ->
+                    div [] []
     in
         Html.form []
-            [ div [ class "form-group" ]
+            [ errorAlert
+            , div [ class "form-group" ]
                 [ label [] [ text "Name" ]
                 , input [ onInput SetNameInput, value model.nameInput, class "form-control" ] []
                 ]
