@@ -29,6 +29,7 @@ update msg model =
                     , ageInput = toString user.age
                     , formAction = Edit
                     , selectedUser = Just id
+                    , errors = Nothing
                 }
                     ! []
 
@@ -36,6 +37,7 @@ update msg model =
             { model
                 | formAction = Delete
                 , selectedUser = Just id
+                , errors = Nothing
             }
                 ! []
 
@@ -46,6 +48,7 @@ update msg model =
                 , emailInput = ""
                 , ageInput = ""
                 , selectedUser = Nothing
+                , errors = Nothing
             }
                 ! []
 
