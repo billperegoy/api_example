@@ -31,19 +31,19 @@ payload user =
         ]
 
 
-baseUrl : String
-baseUrl =
+url : String
+url =
     "http://localhost:4000/api/v1/users"
 
 
-userUrl : Int -> String
-userUrl id =
-    baseUrl ++ "/" ++ (toString id)
+urlWithId : Int -> String
+urlWithId id =
+    url ++ "/" ++ (toString id)
 
 
 get : Cmd Msg
 get =
-    Http.send ProcessUserGet (Http.get baseUrl listDecoder)
+    Http.send ProcessUserGet (Http.get url listDecoder)
 
 
 post : User -> Cmd Msg
@@ -53,7 +53,7 @@ post user =
             Http.stringBody "application/json"
                 (Json.Encode.encode 0 (payload user))
     in
-        Http.send ProcessUserResponse (Http.post baseUrl body decoder)
+        Http.send ProcessUserResponse (Http.post url body decoder)
 
 
 put : User -> Int -> Cmd Msg
@@ -67,7 +67,7 @@ put user id =
             Http.request
                 { method = "PUT"
                 , headers = []
-                , url = (userUrl id)
+                , url = urlWithId id
                 , body = body
                 , expect = Http.expectJson decoder
                 , timeout = Nothing
@@ -84,7 +84,7 @@ delete id =
             Http.request
                 { method = "DELETE"
                 , headers = []
-                , url = (userUrl id)
+                , url = urlWithId id
                 , body = Http.emptyBody
                 , expect = Http.expectJson decoder
                 , timeout = Nothing
