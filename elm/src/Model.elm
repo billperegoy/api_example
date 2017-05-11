@@ -35,8 +35,7 @@ init =
 
 
 type Msg
-    = NoOp
-    | EditUser Int
+    = EditUser Int
     | DeleteUser Int
     | NewUser
     | ProcessUserGet (Result Http.Error (List User))
