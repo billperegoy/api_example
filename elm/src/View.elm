@@ -146,11 +146,18 @@ userRows users =
         |> List.map userRow
 
 
+actionButton : Msg -> String -> Html Msg
+actionButton msg textValue =
+    button
+        [ onClick msg, class "button btn-primary" ]
+        [ text textValue ]
+
+
 userRow : User -> Html Msg
 userRow user =
     tr []
-        [ td [] [ button [ onClick (EditUser user.id), class "button btn-primary" ] [ text "Edit" ] ]
-        , td [] [ button [ onClick (DeleteUser user.id), class "button btn-primary" ] [ text "Delete" ] ]
+        [ td [] [ actionButton (EditUser user.id) "Edit" ]
+        , td [] [ actionButton (DeleteUser user.id) "Delete" ]
         , td [] [ text user.name ]
         , td [] [ text user.email ]
         , td [] [ text (toString user.age) ]
