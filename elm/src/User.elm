@@ -10,6 +10,16 @@ type alias User =
     }
 
 
+nullUser : User
+nullUser =
+    { id = -1
+    , name = ""
+    , email = ""
+    , age = 0
+    , stooge = ""
+    }
+
+
 findUser : Int -> List User -> Maybe User
 findUser id users =
     users

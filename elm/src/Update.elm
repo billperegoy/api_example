@@ -15,44 +15,13 @@ update msg model =
             let
                 user =
                     User.findUser id model.users
-
-                name =
-                    case user of
-                        Nothing ->
-                            "huh?"
-
-                        Just u ->
-                            u.name
-
-                email =
-                    case user of
-                        Nothing ->
-                            "huh?"
-
-                        Just u ->
-                            u.email
-
-                age =
-                    case user of
-                        Nothing ->
-                            "huh?"
-
-                        Just u ->
-                            u.age |> toString
-
-                stooge =
-                    case user of
-                        Nothing ->
-                            "huh?"
-
-                        Just u ->
-                            u.stooge
+                        |> Maybe.withDefault User.nullUser
             in
                 { model
-                    | nameInput = name
-                    , emailInput = email
-                    , ageInput = age
-                    , stoogeInput = stooge
+                    | nameInput = user.name
+                    , emailInput = user.email
+                    , ageInput = toString user.age
+                    , stoogeInput = user.stooge
                     , formAction = Edit
                     , selectedUser = Just id
                 }
