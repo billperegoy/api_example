@@ -45,3 +45,4 @@ type Msg
     | SetAgeInput String
     | UserPost Model
     | UserPut Model
+    | UserDelete Model

@@ -37,7 +37,7 @@ update msg model =
                 | formAction = Delete
                 , selectedUser = Just id
             }
-                ! [ User.Http.delete id ]
+                ! []
 
         NewUser ->
             { model
@@ -89,3 +89,10 @@ update msg model =
                     model.selectedUser |> Maybe.withDefault 0
             in
                 model ! [ User.Http.put (userFormData model) id ]
+
+        UserDelete model ->
+            let
+                id =
+                    model.selectedUser |> Maybe.withDefault 0
+            in
+                model ! [ User.Http.delete id ]

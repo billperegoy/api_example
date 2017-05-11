@@ -27,6 +27,8 @@ formColumn model =
         innerForm =
             if model.formAction == Create || model.formAction == Edit then
                 userForm model
+            else if model.formAction == Delete then
+                deleteForm model
             else
                 div [] []
     in
@@ -107,6 +109,12 @@ userForm model =
                 ]
             , button [ Http.Utils.onClickNoDefault buttonAction, class "btn btn-primary" ] [ text buttonText ]
             ]
+
+
+deleteForm : Model -> Html Msg
+deleteForm model =
+    Html.form []
+        [ button [ Http.Utils.onClickNoDefault (UserDelete model), class "btn btn-primary" ] [ text "Are you sure?" ] ]
 
 
 userTable : List User -> Html Msg
