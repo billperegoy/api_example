@@ -36,11 +36,11 @@ init =
 
 type Msg
     = ShowCreateUserForm
-    | UserCreate Model
+    | CreateUser Model
     | ShowUpdateUserForm Int
-    | UserUpdate Model
+    | UpdateUser Model
     | ShowDeleteUserForm Int
-    | UserDelete Model
+    | DeleteUser Model
     | ProcessUserListResponse (Result Http.Error (List User))
     | ProcessUserResponse (Result Http.Error User)
     | SetNameInput String

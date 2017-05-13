@@ -90,9 +90,9 @@ userForm model =
 
         buttonAction =
             if model.formAction == Edit then
-                UserUpdate model
+                UpdateUser model
             else
-                UserCreate model
+                CreateUser model
 
         errorAlert =
             case model.errors of
@@ -125,7 +125,7 @@ userForm model =
 deleteForm : Model -> Html Msg
 deleteForm model =
     Html.form []
-        [ button [ Http.Utils.onClickNoDefault (UserDelete model), class "btn btn-primary" ] [ text "Are you sure?" ] ]
+        [ button [ Http.Utils.onClickNoDefault (DeleteUser model), class "btn btn-primary" ] [ text "Are you sure?" ] ]
 
 
 userTable : List User -> Html Msg

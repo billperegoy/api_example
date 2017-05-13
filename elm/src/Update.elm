@@ -83,17 +83,17 @@ update msg model =
         SetAgeInput value ->
             { model | ageInput = value } ! []
 
-        UserCreate model ->
+        CreateUser model ->
             model ! [ User.Http.post (userFormData model) ]
 
-        UserUpdate model ->
+        UpdateUser model ->
             let
                 id =
                     model.selectedUser |> Maybe.withDefault 0
             in
                 model ! [ User.Http.put (userFormData model) id ]
 
-        UserDelete model ->
+        DeleteUser model ->
             let
                 id =
                     model.selectedUser |> Maybe.withDefault 0
