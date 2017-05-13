@@ -69,10 +69,7 @@ update msg model =
             { model | formAction = None } ! [ User.Http.get ]
 
         ProcessUserResponse (Err error) ->
-            { model
-                | errors = Just error
-            }
-                ! []
+            { model | errors = Just error } ! []
 
         SetNameInput value ->
             { model | nameInput = value } ! []
