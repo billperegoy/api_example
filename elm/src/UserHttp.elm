@@ -43,7 +43,7 @@ urlWithId id =
 
 get : Cmd Msg
 get =
-    Http.send ProcessUserGet (Http.get url listDecoder)
+    Http.send ProcessUserListResponse (Http.get url listDecoder)
 
 
 post : User -> Cmd Msg

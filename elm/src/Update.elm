@@ -17,7 +17,7 @@ userFormData model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ShowEditUserForm id ->
+        ShowUpdateUserForm id ->
             let
                 user =
                     User.findUser id model.users
@@ -41,7 +41,7 @@ update msg model =
             }
                 ! []
 
-        ShowNewUserForm ->
+        ShowCreateUserForm ->
             { model
                 | formAction = Create
                 , nameInput = ""
@@ -52,14 +52,14 @@ update msg model =
             }
                 ! []
 
-        ProcessUserGet (Ok users) ->
+        ProcessUserListResponse (Ok users) ->
             { model
                 | users = users
                 , errors = Nothing
             }
                 ! []
 
-        ProcessUserGet (Err error) ->
+        ProcessUserListResponse (Err error) ->
             { model
                 | errors = Just error
             }
@@ -83,10 +83,10 @@ update msg model =
         SetAgeInput value ->
             { model | ageInput = value } ! []
 
-        UserPost model ->
+        UserCreate model ->
             model ! [ User.Http.post (userFormData model) ]
 
-        UserPut model ->
+        UserUpdate model ->
             let
                 id =
                     model.selectedUser |> Maybe.withDefault 0

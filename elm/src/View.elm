@@ -12,7 +12,7 @@ view : Model -> Html Msg
 view model =
     div [ class "container" ]
         [ div [ class "row" ]
-            [ button [ onClick ShowNewUserForm, class "button btn-primary" ] [ text "New User" ]
+            [ button [ onClick ShowCreateUserForm, class "button btn-primary" ] [ text "New User" ]
             ]
         , div [ class "row" ]
             [ userTable model.users
@@ -90,9 +90,9 @@ userForm model =
 
         buttonAction =
             if model.formAction == Edit then
-                UserPut model
+                UserUpdate model
             else
-                UserPost model
+                UserCreate model
 
         errorAlert =
             case model.errors of
@@ -167,7 +167,7 @@ actionButton msg textValue =
 userRow : User -> Html Msg
 userRow user =
     tr []
-        [ td [] [ actionButton (ShowEditUserForm user.id) "Edit" ]
+        [ td [] [ actionButton (ShowUpdateUserForm user.id) "Edit" ]
         , td [] [ actionButton (ShowDeleteUserForm user.id) "Delete" ]
         , td [] [ text user.name ]
         , td [] [ text user.email ]

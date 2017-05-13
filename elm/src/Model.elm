@@ -35,13 +35,13 @@ init =
 
 
 type Msg
-    = ShowNewUserForm
-    | UserPost Model
-    | ShowEditUserForm Int
-    | UserPut Model
+    = ShowCreateUserForm
+    | UserCreate Model
+    | ShowUpdateUserForm Int
+    | UserUpdate Model
     | ShowDeleteUserForm Int
     | UserDelete Model
-    | ProcessUserGet (Result Http.Error (List User))
+    | ProcessUserListResponse (Result Http.Error (List User))
     | ProcessUserResponse (Result Http.Error User)
     | SetNameInput String
     | SetEmailInput String
