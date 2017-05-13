@@ -12,7 +12,9 @@ view : Model -> Html Msg
 view model =
     div [ class "container" ]
         [ div [ class "row" ]
-            [ button [ onClick ShowCreateUserForm, class "button btn-primary" ] [ text "New User" ]
+            [ button
+                [ onClick ShowCreateUserForm, class "button btn-primary" ]
+                [ text "New User" ]
             ]
         , div [ class "row" ]
             [ userTable model.users
