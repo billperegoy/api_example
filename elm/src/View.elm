@@ -12,7 +12,7 @@ view : Model -> Html Msg
 view model =
     div [ class "container" ]
         [ div [ class "row" ]
-            [ button [ onClick NewUser, class "button btn-primary" ] [ text "New User" ]
+            [ button [ onClick ShowNewUserForm, class "button btn-primary" ] [ text "New User" ]
             ]
         , div [ class "row" ]
             [ userTable model.users
@@ -167,8 +167,8 @@ actionButton msg textValue =
 userRow : User -> Html Msg
 userRow user =
     tr []
-        [ td [] [ actionButton (EditUser user.id) "Edit" ]
-        , td [] [ actionButton (DeleteUser user.id) "Delete" ]
+        [ td [] [ actionButton (ShowEditUserForm user.id) "Edit" ]
+        , td [] [ actionButton (ShowDeleteUserForm user.id) "Delete" ]
         , td [] [ text user.name ]
         , td [] [ text user.email ]
         , td [] [ text (toString user.age) ]

@@ -17,7 +17,7 @@ userFormData model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        EditUser id ->
+        ShowEditUserForm id ->
             let
                 user =
                     User.findUser id model.users
@@ -33,7 +33,7 @@ update msg model =
                 }
                     ! []
 
-        DeleteUser id ->
+        ShowDeleteUserForm id ->
             { model
                 | formAction = Delete
                 , selectedUser = Just id
@@ -41,7 +41,7 @@ update msg model =
             }
                 ! []
 
-        NewUser ->
+        ShowNewUserForm ->
             { model
                 | formAction = Create
                 , nameInput = ""
