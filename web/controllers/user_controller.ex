@@ -19,8 +19,8 @@ defmodule ApiExample.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         json conn |> put_status(:created), user
-      {:error, _changeset} ->
-        json conn |> put_status(:bad_request), %{errors: ["unable to create user"]}
+      {:error, changeset} ->
+        json conn |> put_status(:bad_request), %{errors: format_errors(changeset.errors)}
     end
   end
 
@@ -33,7 +33,7 @@ defmodule ApiExample.UserController do
     end
   end
 
-  def delete(conn, %{"id" => id} = params) do
+  def delete(conn, %{"id" => id}) do
     user = Repo.get(ApiExample.User, id)
     if user do
       Repo.delete(user)
@@ -43,13 +43,24 @@ defmodule ApiExample.UserController do
     end
   end
 
+  defp format_errors(errors) do
+    Enum.map(errors, &format_error(&1))
+  end
+
+  # FIXME - This doesn't tell the complete error yet
+  defp format_error(error) do
+    field = elem(error, 0)
+    message = elem(error, 1) |> elem(0)
+    %{field => message}
+  end
+
   defp perform_update(conn, user, params) do
     changeset = ApiExample.User.changeset(user, params)
     case Repo.update(changeset) do
       {:ok, user} ->
         json conn |> put_status(:ok), user
-      {:error, _result} ->
-        json conn |> put_status(:bad_request), %{errors: ["unable to update user"]}
+      {:error, changeset} ->
+        json conn |> put_status(:bad_request), %{errors: format_errors(changeset.errors)}
     end
   end
 
