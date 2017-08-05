@@ -1,6 +1,16 @@
 module User exposing (..)
 
 
+type alias UserResponse =
+    { data : User
+    }
+
+
+type alias UserListResponse =
+    { data : List User
+    }
+
+
 type alias User =
     { id : Int
     , name : String

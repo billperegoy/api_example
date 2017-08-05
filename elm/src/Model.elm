@@ -41,8 +41,8 @@ type Msg
     | UpdateUser Model
     | ShowDeleteUserForm Int
     | DeleteUser Model
-    | ProcessUserListResponse (Result Http.Error (List User))
-    | ProcessUserResponse (Result Http.Error User)
+    | ProcessUserListResponse (Result Http.Error (UserListResponse))
+    | ProcessUserResponse (Result Http.Error UserResponse)
     | SetNameInput String
     | SetEmailInput String
     | SetAgeInput String

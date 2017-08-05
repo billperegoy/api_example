@@ -8,6 +8,18 @@ import Model exposing (..)
 import User exposing (..)
 
 
+responseDecoder : Json.Decode.Decoder UserResponse
+responseDecoder =
+    Json.Decode.Pipeline.decode UserResponse
+        |> Json.Decode.Pipeline.required "data" decoder
+
+
+listResponseDecoder : Json.Decode.Decoder UserListResponse
+listResponseDecoder =
+    Json.Decode.Pipeline.decode UserListResponse
+        |> Json.Decode.Pipeline.required "data" listDecoder
+
+
 listDecoder : Json.Decode.Decoder (List User)
 listDecoder =
     Json.Decode.list decoder
@@ -43,7 +55,7 @@ urlWithId id =
 
 get : Cmd Msg
 get =
-    Http.send ProcessUserListResponse (Http.get url listDecoder)
+    Http.send ProcessUserListResponse (Http.get url listResponseDecoder)
 
 
 post : User -> Cmd Msg
@@ -53,7 +65,7 @@ post user =
             Http.stringBody "application/json"
                 (Json.Encode.encode 0 (payload user))
     in
-        Http.send ProcessUserResponse (Http.post url body decoder)
+        Http.send ProcessUserResponse (Http.post url body responseDecoder)
 
 
 put : User -> Int -> Cmd Msg
@@ -69,7 +81,7 @@ put user id =
                 , headers = []
                 , url = urlWithId id
                 , body = body
-                , expect = Http.expectJson decoder
+                , expect = Http.expectJson responseDecoder
                 , timeout = Nothing
                 , withCredentials = False
                 }
@@ -86,7 +98,7 @@ delete id =
                 , headers = []
                 , url = urlWithId id
                 , body = Http.emptyBody
-                , expect = Http.expectJson decoder
+                , expect = Http.expectJson responseDecoder
                 , timeout = Nothing
                 , withCredentials = False
                 }

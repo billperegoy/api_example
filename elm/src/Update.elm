@@ -52,12 +52,16 @@ update msg model =
             }
                 ! []
 
-        ProcessUserListResponse (Ok users) ->
-            { model
-                | users = users
-                , errors = Nothing
-            }
-                ! []
+        ProcessUserListResponse (Ok userResponse) ->
+            let
+                users =
+                    userResponse.data
+            in
+                { model
+                    | users = users
+                    , errors = Nothing
+                }
+                    ! []
 
         ProcessUserListResponse (Err error) ->
             { model
@@ -65,7 +69,7 @@ update msg model =
             }
                 ! []
 
-        ProcessUserResponse (Ok user) ->
+        ProcessUserResponse (Ok userResponse) ->
             { model | formAction = None } ! [ User.Http.get ]
 
         ProcessUserResponse (Err error) ->

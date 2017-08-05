@@ -5,7 +5,8 @@ defmodule ApiExample.UserController do
     query = from u in ApiExample.User, order_by: u.id
     users = Repo.all(query)
 
-    json conn_with_status(conn, users), users
+    IO.inspect(users)
+    json conn_with_status(conn, users), format_api_response(users)
   end
 
   def show(conn, %{"id" => id}) do
@@ -18,7 +19,7 @@ defmodule ApiExample.UserController do
     changeset = ApiExample.User.changeset(%ApiExample.User{}, params)
     case Repo.insert(changeset) do
       {:ok, user} ->
-        json conn |> put_status(:created), user
+        json conn |> put_status(:created), format_api_response(user)
       {:error, changeset} ->
         json conn |> put_status(:bad_request), %{errors: format_errors(changeset.errors)}
     end
@@ -37,10 +38,14 @@ defmodule ApiExample.UserController do
     user = Repo.get(ApiExample.User, id)
     if user do
       Repo.delete(user)
-      json conn |> put_status(:accepted), user
+      json conn |> put_status(:accepted), format_api_response(user)
     else
       json conn |> put_status(:not_found), %{errors: ["invalid user"]}
     end
+  end
+
+  defp format_api_response(data) do
+    %{data: data}
   end
 
   defp format_errors(errors) do
@@ -49,6 +54,7 @@ defmodule ApiExample.UserController do
 
   # FIXME - This doesn't tell the complete error yet
   defp format_error(error) do
+    IO.inspect(error)
     field = elem(error, 0)
     message = elem(error, 1) |> elem(0)
     %{field => message}
@@ -58,7 +64,7 @@ defmodule ApiExample.UserController do
     changeset = ApiExample.User.changeset(user, params)
     case Repo.update(changeset) do
       {:ok, user} ->
-        json conn |> put_status(:ok), user
+        json conn |> put_status(:ok), format_api_response(user)
       {:error, changeset} ->
         json conn |> put_status(:bad_request), %{errors: format_errors(changeset.errors)}
     end
