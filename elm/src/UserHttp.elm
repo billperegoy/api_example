@@ -6,6 +6,25 @@ import Json.Encode
 import Json.Decode.Pipeline
 import Model exposing (..)
 import User exposing (..)
+import Error.Http
+
+
+validUsersDecoder : Json.Decode.Decoder UserHttpResponse
+validUsersDecoder =
+    Json.Decode.map ValidUserResponse listDecoder
+
+
+errorUsersDecoder : Json.Decode.Decoder UserHttpResponse
+errorUsersDecoder =
+    Json.Decode.map ErrorUserResponse Error.Http.listDecoder
+
+
+userHttpResponseDecoder : Json.Decode.Decoder UserHttpResponse
+userHttpResponseDecoder =
+    Json.Decode.oneOf
+        [ validUsersDecoder
+        , errorUsersDecoder
+        ]
 
 
 responseDecoder : Json.Decode.Decoder UserResponse

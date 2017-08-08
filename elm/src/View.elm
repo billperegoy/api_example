@@ -101,7 +101,7 @@ userForm model =
                 Just _ ->
                     div
                         [ class "alert alert-danger" ]
-                        [ text "Invalid data. Try again." ]
+                        [ text ("Invalid data. Try again." ++ (toString model.errors)) ]
 
                 Nothing ->
                     div [] []

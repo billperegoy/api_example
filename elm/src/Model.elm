@@ -12,6 +12,7 @@ type alias Model =
     , nameInput : String
     , emailInput : String
     , ageInput : String
+    , userHttpResponse : UserHttpResponse
     }
 
 
@@ -31,6 +32,7 @@ init =
     , nameInput = ""
     , emailInput = ""
     , ageInput = ""
+    , userHttpResponse = NoResponse
     }
 
 

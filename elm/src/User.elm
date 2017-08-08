@@ -1,5 +1,13 @@
 module User exposing (..)
 
+import Error
+
+
+type UserHttpResponse
+    = NoResponse
+    | ValidUserResponse (List User)
+    | ErrorUserResponse (List Error.Error)
+
 
 type alias UserResponse =
     { data : User
