@@ -1,4 +1,4 @@
-module User.Http exposing (delete, get, post, put)
+module User.Http exposing (..)
 
 import Http
 import Json.Decode
