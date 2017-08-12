@@ -9,9 +9,15 @@ import User exposing (..)
 import Error.Http
 
 
+{-
+   This is how I figured out how to decode
+   https://stackoverflow.com/questions/41969381/how-do-i-json-decode-a-union-type
+-}
+
+
 validUsersDecoder : Json.Decode.Decoder UserHttpResponse
 validUsersDecoder =
-    Json.Decode.map ValidUserResponse listDecoder
+    Json.Decode.map (\x -> ValidUserResponse x) listDecoder
 
 
 errorUsersDecoder : Json.Decode.Decoder UserHttpResponse
