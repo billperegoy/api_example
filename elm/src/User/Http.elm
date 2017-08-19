@@ -17,12 +17,12 @@ import Error.Http
 
 validUsersDecoder : Json.Decode.Decoder UserHttpResponse
 validUsersDecoder =
-    Json.Decode.map (\x -> ValidUserResponse x) listDecoder
+    Json.Decode.map (\response -> ValidUserResponse response.data) listResponseDecoder
 
 
 errorUsersDecoder : Json.Decode.Decoder UserHttpResponse
 errorUsersDecoder =
-    Json.Decode.map ErrorUserResponse Error.Http.listDecoder
+    Json.Decode.map (\response -> ErrorUserResponse response.errors) Error.Http.errorResponseDecoder
 
 
 userHttpResponseDecoder : Json.Decode.Decoder UserHttpResponse
