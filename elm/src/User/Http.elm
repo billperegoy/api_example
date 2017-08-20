@@ -15,17 +15,17 @@ import Error.Http
 -}
 
 
-validUsersDecoder : Json.Decode.Decoder UserHttpResponse
+validUsersDecoder : Json.Decode.Decoder UserListHttpResponse
 validUsersDecoder =
-    Json.Decode.map (\response -> ValidUserResponse response.data) listResponseDecoder
+    Json.Decode.map (\response -> ValidUserListResponse response.data) listResponseDecoder
 
 
-errorUsersDecoder : Json.Decode.Decoder UserHttpResponse
+errorUsersDecoder : Json.Decode.Decoder UserListHttpResponse
 errorUsersDecoder =
-    Json.Decode.map (\response -> ErrorUserResponse response.errors) Error.Http.errorResponseDecoder
+    Json.Decode.map (\response -> ErrorUserListResponse response.errors) Error.Http.errorResponseDecoder
 
 
-userHttpResponseDecoder : Json.Decode.Decoder UserHttpResponse
+userHttpResponseDecoder : Json.Decode.Decoder UserListHttpResponse
 userHttpResponseDecoder =
     Json.Decode.oneOf
         [ validUsersDecoder

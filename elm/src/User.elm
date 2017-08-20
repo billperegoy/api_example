@@ -4,9 +4,15 @@ import Error
 
 
 type UserHttpResponse
-    = NoResponse
-    | ValidUserResponse (List User)
+    = UserNoResponse
+    | ValidUserResponse User
     | ErrorUserResponse (List Error.Error)
+
+
+type UserListHttpResponse
+    = UserListNoResponse
+    | ValidUserListResponse (List User)
+    | ErrorUserListResponse (List Error.Error)
 
 
 type alias UserResponse =
